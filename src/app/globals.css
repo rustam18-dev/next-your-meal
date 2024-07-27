@@ -1,33 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "../../public/css/normalize.css";
+@import "../../public/css/fonts.css";
+@import "../../public/css/default.css";
+@import "../../public/css/header.css";
+@import "../../public/css/navigation.css";
+@import "../../public/css/calatog.css";
+@import "../../public/css/order.css";
+@import "../../public/css/count.css";
+@import "../../public/css/product.css";
+@import "../../public/css/footer.css";
+@import "../../public/css/modal.css";
+@import "../../public/css/modal-product.css";
+@import "../../public/css/ingredients.css";
+@import "../../public/css/modal-delivery.css";
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
