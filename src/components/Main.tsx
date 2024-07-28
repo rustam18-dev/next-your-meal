@@ -25,9 +25,12 @@ export default function Main() {
   })
   const toShowInDetail = (product: IProduct) => {
     setIsDetailProduct(true)
-
-    setProductForModal(product)
+    setProductForModal({...product, amount: 1})
   }
+
+  const handleStateChangeModal = (childData: boolean) => {
+
+  };
   return (
     <main>
       <Catalog />
@@ -48,7 +51,7 @@ export default function Main() {
                       <h3 className="product__title">
                         <button className="product__detail">{product?.name}</button>
                       </h3>
-                      <p className="product__weight">{product.weight}г</p>
+                      <p className="product__weight">{product.weight}</p>
                       <button onClick={() => toShowInDetail(product)} className="product__add" type="button">
                         {useIsExistProduct(product.id) ? 'В корзине' : 'Подробнее'}
                       </button>
@@ -64,6 +67,7 @@ export default function Main() {
       <ModalProduct
         isDetailProduct={isDetailProduct}
         product={productForModal}
+        closeModal={(data: boolean) => setIsDetailProduct(data)}
       />
       <ModalDelivery />
     </main>
