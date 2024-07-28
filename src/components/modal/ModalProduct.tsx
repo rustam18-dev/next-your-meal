@@ -1,6 +1,15 @@
-export default function ModalProduct() {
+import {IProduct} from "@/types/product.types";
+
+type Props = {
+  isDetailProduct: boolean
+  product: IProduct
+}
+
+export default function ModalProduct({isDetailProduct, product}: Props) {
+
+  console.log(product)
   return (
-    <div className="modal modal_product "> {/* modal_open */}
+    <div className={`modal modal_product ${isDetailProduct && 'modal_open'}`}> {/* modal_open */}
       <div className="modal__main modal-product">
         <div className="modal-product__container">
           <h2 className="modal-product__title">Мясная бомба</h2>

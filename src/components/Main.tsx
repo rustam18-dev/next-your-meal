@@ -5,15 +5,28 @@ import Basket from "./Basket";
 import ModalProduct from "./modal/ModalProduct";
 import ModalDelivery from "./modal/ModalDelivery";
 import products from "../../public/products.json";
-import {useActions} from "@/hooks/actions";
 import {IProduct} from "@/types/product.types";
+import {useIsExistProduct} from "@/hooks/product/useIsExistProduct";
+import {useState} from "react";
+
 
 export default function Main() {
+  const [isDetailProduct, setIsDetailProduct] = useState<boolean>(false)
+  const [productForModal, setProductForModal] = useState<IProduct>({
+    id: 0,
+    amount: 0,
+    description: '',
+    img: '',
+    calories: '',
+    name: '',
+    price: 0,
+    weight: '',
+    ingredients: []
+  })
+  const toShowInDetail = (product: IProduct) => {
+    setIsDetailProduct(true)
 
-  const {addBasket} = useActions()
-
-  const addToBasket = (product: IProduct) => {
-    addBasket(product)
+    setProductForModal(product)
   }
   return (
     <main>
@@ -36,7 +49,9 @@ export default function Main() {
                         <button className="product__detail">{product?.name}</button>
                       </h3>
                       <p className="product__weight">{product.weight}г</p>
-                      <button onClick={() => addToBasket(product)} className="product__add" type="button">Добавить</button>
+                      <button onClick={() => toShowInDetail(product)} className="product__add" type="button">
+                        {useIsExistProduct(product.id) ? 'В корзине' : 'Подробнее'}
+                      </button>
                     </article>
                   </li>
                 ))}
@@ -46,8 +61,11 @@ export default function Main() {
         </div>
       </section>
 
-      <ModalProduct/>
-      <ModalDelivery/>
+      <ModalProduct
+        isDetailProduct={isDetailProduct}
+        product={productForModal}
+      />
+      <ModalDelivery />
     </main>
   )
 }
