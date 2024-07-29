@@ -3,17 +3,24 @@ import {IProduct} from "@/types/product.types";
 import {WritableDraft} from "immer";
 
 const LS_BSK_KEY = 'bsk'
-
 interface BasketState {
   baskets: IProduct[],
-  totalAmount: number,
-  totalPrice: number,
+  previewProduct: IProduct
 }
 
 const initialState: BasketState = {
   baskets: JSON.parse(localStorage.getItem(LS_BSK_KEY) ?? '[]'),
-  totalAmount: 0,
-  totalPrice: 0,
+  previewProduct: {
+    id: 0,
+    amount: 0,
+    description: '',
+    img: '',
+    calories: '',
+    name: '',
+    price: 0,
+    weight: '',
+    ingredients: []
+  },
 }
 
 export const basketSlice = createSlice({
@@ -24,24 +31,25 @@ export const basketSlice = createSlice({
       const isExist = state.baskets.some(product => product.id === action.payload.id)
       if (isExist) return
 
-      let product: IProduct = {...action.payload}
-      product = {...action.payload, amount: 1}
-      console.log(product)
-
-      state.baskets.push(product)
+      state.baskets.push(state.previewProduct)
       localStorage.setItem(LS_BSK_KEY, JSON.stringify(state.baskets))
+    },
+    previewProduct(state, action: PayloadAction<IProduct>) {
+      console.log(action.payload)
+      state.previewProduct = {...action.payload, amount: 1}
     },
     increaseCountOfProduct(state, action: PayloadAction<IProduct>) {
-      state.baskets.forEach((item: any) => {
-        if (item.id === action.payload.id) {
-          item.amount++
+      if (state.previewProduct.id === action.payload.id) {
+        state.previewProduct.amount!++
+      } else {
+        const product = state.baskets.find(item => item.id === action.payload.id)
+        if (product) {
+          product.amount!++
         }
-      })
-
-      localStorage.setItem(LS_BSK_KEY, JSON.stringify(state.baskets))
+        localStorage.setItem(LS_BSK_KEY, JSON.stringify(state.baskets))
+      }
     },
     decreaseCountOfProduct(state, action: PayloadAction<IProduct>) {
-
       state.baskets.forEach((item: any) => {
         if (item.id === action.payload.id) {
           if (item.amount === 1) {

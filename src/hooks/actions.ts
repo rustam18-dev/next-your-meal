@@ -3,7 +3,7 @@ import {bindActionCreators} from '@reduxjs/toolkit'
 import {basketActions} from "@/store/basket/basket.slice";
 
 const actions = {
-  ...basketActions
+  ...basketActions,
 }
 
 export const useActions = () => {

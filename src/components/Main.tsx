@@ -8,39 +8,26 @@ import products from "../../public/products.json";
 import {IProduct} from "@/types/product.types";
 import {useIsExistProduct} from "@/hooks/product/useIsExistProduct";
 import {useState} from "react";
+import {useActions} from "@/hooks/actions";
 
 
 export default function Main() {
   const [isDetailProduct, setIsDetailProduct] = useState<boolean>(false)
-  const [productForModal, setProductForModal] = useState<IProduct>({
-    id: 0,
-    amount: 0,
-    description: '',
-    img: '',
-    calories: '',
-    name: '',
-    price: 0,
-    weight: '',
-    ingredients: []
-  })
+  const {previewProduct} = useActions()
+
   const toShowInDetail = (product: IProduct) => {
+    previewProduct(product)
     setIsDetailProduct(true)
-    setProductForModal({...product, amount: 1})
   }
 
-  const handleStateChangeModal = (childData: boolean) => {
-
-  };
   return (
     <main>
       <Catalog />
       <section className="catalog">
         <div className="container catalog__container">
           <Basket />
-
           <div className="catalog__wrapper">
             <h2 className="catalog__title">Бургеры</h2>
-
             <div className="catalog__wrap_list">
               <ul className="catalog__list">
                 {products.map(product => (
@@ -66,7 +53,6 @@ export default function Main() {
 
       <ModalProduct
         isDetailProduct={isDetailProduct}
-        product={productForModal}
         closeModal={(data: boolean) => setIsDetailProduct(data)}
       />
       <ModalDelivery />

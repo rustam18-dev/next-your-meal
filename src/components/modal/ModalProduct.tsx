@@ -1,12 +1,19 @@
-import {IProduct} from "@/types/product.types";
+import {useActions} from "@/hooks/actions";
+import {useAppSelector} from "@/hooks/redux";
 
 type Props = {
   isDetailProduct: boolean
-  product: IProduct
   closeModal: (data: boolean) => void
 }
 
-export default function ModalProduct({isDetailProduct, product, closeModal}: Props) {
+export default function ModalProduct({isDetailProduct, closeModal}: Props) {
+  const {
+    addBasket,
+    increaseCountOfProduct,
+    decreaseCountOfProduct,
+  } = useActions()
+
+  const {previewProduct: product} = useAppSelector(state => state.basket)
 
   return (
     <div className={`modal modal_product ${isDetailProduct && 'modal_open'}`}>
@@ -35,12 +42,15 @@ export default function ModalProduct({isDetailProduct, product, closeModal}: Pro
               <div className="modal-product__footer">
 
                 <div className="modal-product__add">
-                  <button className="modal-product__btn">Добавить</button>
+                  <button onClick={() => {
+                    closeModal(false)
+                    addBasket(product)
+                  }} className="modal-product__btn">Добавить</button>
 
                   <div className="modal-product__count count">
-                    <button className="count__minus">-</button>
+                    <button onClick={() => decreaseCountOfProduct(product)} className="count__minus">-</button>
                     <p className="count__amount">{product.amount}</p>
-                    <button className="count__plus">+</button>
+                    <button onClick={() => increaseCountOfProduct(product)} className="count__plus">+</button>
                   </div>
                 </div>
 
