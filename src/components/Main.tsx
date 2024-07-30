@@ -22,10 +22,10 @@ export default function Main() {
 
   return (
     <main>
-      <Catalog />
+      <Catalog/>
       <section className="catalog">
         <div className="container catalog__container">
-          <Basket />
+          <Basket/>
           <div className="catalog__wrapper">
             <h2 className="catalog__title">Бургеры</h2>
             <div className="catalog__wrap_list">
@@ -39,9 +39,15 @@ export default function Main() {
                         <button className="product__detail">{product?.name}</button>
                       </h3>
                       <p className="product__weight">{product.weight}</p>
-                      <button onClick={() => toShowInDetail(product)} className="product__add" type="button">
-                        {useIsExistProduct(product.id) ? 'В корзине' : 'Подробнее'}
-                      </button>
+                      {useIsExistProduct(product.id) ? (
+                        <button style={{cursor: 'not-allowed'}}  className="product__add" type="button">
+                          В корзине
+                        </button>
+                      ) : (
+                        <button onClick={() => toShowInDetail(product)} className="product__add" type="button">
+                          Подробнее
+                        </button>
+                      )}
                     </article>
                   </li>
                 ))}
@@ -55,7 +61,7 @@ export default function Main() {
         isDetailProduct={isDetailProduct}
         closeModal={(data: boolean) => setIsDetailProduct(data)}
       />
-      <ModalDelivery />
+      <ModalDelivery/>
     </main>
   )
 }

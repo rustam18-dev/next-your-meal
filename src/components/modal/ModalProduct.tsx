@@ -48,12 +48,11 @@ export default function ModalProduct({isDetailProduct, closeModal}: Props) {
                   }} className="modal-product__btn">Добавить</button>
 
                   <div className="modal-product__count count">
-                    <button onClick={() => decreaseCountOfProduct(product)} className="count__minus">-</button>
+                    <button onClick={() => decreaseCountOfProduct(product)} style={product.amount! === 1 ? {cursor: "not-allowed"} : {}} className="count__minus">-</button>
                     <p className="count__amount">{product.amount}</p>
                     <button onClick={() => increaseCountOfProduct(product)} className="count__plus">+</button>
                   </div>
                 </div>
-
 
               </div>
               <p className="modal-product__price">{product.price}

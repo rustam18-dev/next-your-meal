@@ -22,7 +22,6 @@ const initialState: BasketState = {
     ingredients: []
   },
 }
-
 export const basketSlice = createSlice({
   name: 'basket',
   initialState,
@@ -33,9 +32,10 @@ export const basketSlice = createSlice({
 
       state.baskets.push(state.previewProduct)
       localStorage.setItem(LS_BSK_KEY, JSON.stringify(state.baskets))
+
+      state.previewProduct = initialState.previewProduct
     },
     previewProduct(state, action: PayloadAction<IProduct>) {
-      console.log(action.payload)
       state.previewProduct = {...action.payload, amount: 1}
     },
     increaseCountOfProduct(state, action: PayloadAction<IProduct>) {
@@ -50,17 +50,23 @@ export const basketSlice = createSlice({
       }
     },
     decreaseCountOfProduct(state, action: PayloadAction<IProduct>) {
-      state.baskets.forEach((item: any) => {
-        if (item.id === action.payload.id) {
-          if (item.amount === 1) {
-            state.baskets = state.baskets.filter(product => product.id !== action.payload.id)
-          } else {
-            item.amount--
-          }
+      if (state.previewProduct.id === action.payload.id) {
+        if (state.previewProduct.amount! > 1) {
+          state.previewProduct.amount!--
         }
-      })
+      } else {
+        state.baskets.forEach((item: any) => {
+          if (item.id === action.payload.id) {
+            if (item.amount === 1) {
+              state.baskets = state.baskets.filter(product => product.id !== action.payload.id)
+            } else {
+              item.amount--
+            }
+          }
+        })
 
-      localStorage.setItem(LS_BSK_KEY, JSON.stringify(state.baskets))
+        localStorage.setItem(LS_BSK_KEY, JSON.stringify(state.baskets))
+      }
     },
     removeAllProductInBasket(state) {
       const isConfirm = confirm('Do you really want to do this?')
