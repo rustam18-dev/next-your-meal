@@ -61,7 +61,6 @@ export default function Main() {
         isDetailProduct={isDetailProduct}
         closeModal={(data: boolean) => setIsDetailProduct(data)}
       />
-      <ModalDelivery/>
     </main>
   )
 }

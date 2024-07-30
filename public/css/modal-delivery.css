@@ -58,6 +58,10 @@
   color: #000;
 }
 
+.modal-delivery__input:focus {
+  outline: none;
+}
+
 .modal-delivery__input_half {
   flex-basis: calc((100% - var(--gap)) / 2);
 }

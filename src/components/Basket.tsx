@@ -3,11 +3,14 @@ import {useEffect, useState} from "react";
 import {useAppSelector} from "@/hooks/redux";
 import {useActions} from "@/hooks/actions";
 import {Trash} from "lucide-react";
+import ModalDelivery from "@/components/modal/ModalDelivery";
 
 export default function Basket() {
   const [isShowBasket, setIsShowBasket] = useState<boolean>(true)
   const [totalAmount, setTotalAmount] = useState<number>(0)
   const [totalPrice, setTotalPrice] = useState<number>(0)
+  const [isDeliveryModal, setIsDeliveryModal] = useState<boolean>(false)
+
 
   const {baskets} = useAppSelector(state => state.basket)
   const {
@@ -70,7 +73,7 @@ export default function Basket() {
                   </p>
                 </div>
 
-                <button className="order__submit">Оформить заказ</button>
+                <button onClick={() => setIsDeliveryModal(true)} className="order__submit">Оформить заказ</button>
 
                 <div className="order__wrap-appeal">
                   <p className="order__appeal">Бесплатная доставка</p>
@@ -90,6 +93,11 @@ export default function Basket() {
           </div>
         )}
       </section>
+
+      <ModalDelivery
+        isDeliveryModal={isDeliveryModal}
+        closeDeliveryModal={() => setIsDeliveryModal(false)}
+      />
     </div>
   )
 }
