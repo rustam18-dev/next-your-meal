@@ -1,5 +1,7 @@
 import {SubmitHandler, useForm} from "react-hook-form";
 import {IDelivery} from "@/types/delivery.types";
+import {Simulate} from "react-dom/test-utils";
+import {useActions} from "@/hooks/actions";
 
 type Props = {
   isDeliveryModal: boolean
@@ -7,14 +9,23 @@ type Props = {
 }
 
 export default function ModalDelivery({isDeliveryModal, closeDeliveryModal}: Props) {
-  const {register, handleSubmit, watch, formState: {errors}} = useForm<IDelivery>({
+  const {register, handleSubmit, watch, formState: {errors}, reset} = useForm<IDelivery>({
     defaultValues: {
-      delivery: "delivery"
+      delivery: "delivery",
     }
   })
+  const {clearBasket} = useActions()
 
   const submit: SubmitHandler<IDelivery> = data => {
-    console.log(data)
+    alert('Заказ успешно сделан!')
+    reset({
+      name: '',
+      phone: '',
+      delivery: "delivery",
+      address: '',
+    })
+    clearBasket()
+    closeDeliveryModal(false)
   }
   const delivery = watch('delivery')
 
@@ -71,7 +82,10 @@ export default function ModalDelivery({isDeliveryModal, closeDeliveryModal}: Pro
                   className="modal-delivery__input"
                   type="text"
                   placeholder="Адрес"
-                  {...register('address')}
+                  {...register('address', {
+                    required: true
+                  })}
+                  style={errors.address ? {border: '1px solid tomato'} : {}}
                 />
               </fieldset>
             )}

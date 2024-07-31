@@ -75,6 +75,10 @@ export const basketSlice = createSlice({
       state.baskets = []
       localStorage.setItem(LS_BSK_KEY, JSON.stringify(state.baskets))
     },
+    clearBasket(state) {
+      state.baskets = []
+      localStorage.removeItem(LS_BSK_KEY)
+    }
   }
 })
 

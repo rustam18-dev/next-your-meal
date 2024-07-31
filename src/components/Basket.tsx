@@ -1,5 +1,5 @@
 'use client'
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {useAppSelector} from "@/hooks/redux";
 import {useActions} from "@/hooks/actions";
 import {Trash} from "lucide-react";
@@ -19,11 +19,10 @@ export default function Basket() {
     removeAllProductInBasket
   } = useActions()
 
-
-  useEffect(() => {
+  useMemo(() => {
     setTotalAmount(baskets.reduce((total, product) => total + product?.amount!, 0))
     setTotalPrice(baskets.reduce((total, product) => total + (product.price * product.amount!), 0))
-  }, [baskets])
+  },[baskets])
 
   return (
     <div className="catalog__order order">
